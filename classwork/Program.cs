@@ -2,17 +2,44 @@
 
 namespace classwork
 {
-    public class OFile
-    {
-        public string[] obj;
 
-        public OFile(string[] obj)
+    public class Input
+    {
+        public string InputText;
+
+        public Input(string inputText)
+        {
+            InputText = inputText;
+        }
+
+        public string[] SplitLines()
+        {
+            var lines = InputText.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+            return lines;
+        }
+
+        public string[] Parse(string[] lines)
+        {
+            string[] temp = new string[lines.Length];
+            for (int i = 0; i < lines.Length; i++)
             {
-            this.obj = obj;
+                temp = lines[i].Split(':', '(', ';');
             }
 
+            return temp;
+        }
+    }
 
 
+
+    public class OFile
+    {
+        public string[] Obj;
+
+        public OFile(string[] obj)
+        {
+            this.Obj = obj;
+        }
     }
 
     public class File : OFile
@@ -22,8 +49,8 @@ namespace classwork
 
         public File(string[] obj) : base(obj)
         {
-            fileName=obj[1];
-            size=obj[2];
+            fileName = obj[1];
+            size = obj[2];
         }
 
 
@@ -35,7 +62,7 @@ namespace classwork
 
         public TextFile(string[] obj) : base(obj)
         {
-            content=obj[3];
+            content = obj[3];
         }
 
         public void Print()
@@ -55,7 +82,7 @@ namespace classwork
 
         public ImageFile(string[] obj) : base(obj)
         {
-            resolution=obj[3];
+            resolution = obj[3];
         }
 
         public void Print()
@@ -75,7 +102,7 @@ namespace classwork
 
         public VideoFile(string[] obj) : base(obj)
         {
-            length=obj[4];
+            length = obj[4] = length;
         }
 
         public void Print()
@@ -99,16 +126,18 @@ Text:data.txt(12B); Another string
 Text:data1.txt(7B); Yet another string
 Movie:logan.2017.mkv(19GB); 1920х1080; 2h12m";
 
-            var lines = allinput.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+
+            var newinput = new Input(allinput);
+
+            var lines = newinput.SplitLines();
 
             for (int i = 0; i < lines.Length; i++)
             {
-                var temp = lines[i].Split(':', '(', ';');
-
+                var temp = newinput.Parse(lines);
 
                 if (temp[0] == "Text")
                 {
-                    TextFile textscope = new TextFile(temp);
+                    var textscope = new TextFile(temp);
                     textscope.Print();
 
                 }
@@ -125,6 +154,7 @@ Movie:logan.2017.mkv(19GB); 1920х1080; 2h12m";
 
                 }
             }
+
 
         }
 
