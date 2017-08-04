@@ -2,16 +2,28 @@
 
 namespace classwork
 {
-
-    public class File
+    public class OFile
     {
-        public string FileName;
-        public string Size;
+        public string[] obj;
 
-        public File(string size, string fileName)
+        public OFile(string[] obj)
+            {
+            this.obj = obj;
+            }
+
+
+
+    }
+
+    public class File : OFile
+    {
+        public string fileName;
+        public string size;
+
+        public File(string[] obj) : base(obj)
         {
-            Size = size;
-            FileName = fileName;
+            fileName=obj[1];
+            size=obj[2];
         }
 
 
@@ -19,61 +31,61 @@ namespace classwork
 
     public class TextFile : File
     {
-        public string Content;
+        public string content;
 
-        public TextFile(string size, string fileName, string content) : base(size, fileName)
+        public TextFile(string[] obj) : base(obj)
         {
-            Content = content;
+            content=obj[3];
         }
 
         public void Print()
         {
             Console.WriteLine("Text files:");
-            Console.WriteLine("  " + FileName);
+            Console.WriteLine("  " + fileName);
             Console.WriteLine("      Extension: txt");
-            Console.WriteLine("      Size: " + Size.Trim(new char[] { ' ', ')' }));
-            Console.WriteLine("      Content: " + Content);
+            Console.WriteLine("      Size: " + size.Trim(new char[] { ' ', ')' }));
+            Console.WriteLine("      Content: " + content);
         }
 
     }
 
     public class ImageFile : File
     {
-        public string Resolution;
+        public string resolution;
 
-        public ImageFile(string size, string fileName, string resolution) : base(size, fileName)
+        public ImageFile(string[] obj) : base(obj)
         {
-            Resolution = resolution;
+            resolution=obj[3];
         }
 
         public void Print()
         {
             Console.WriteLine("Images:");
-            Console.WriteLine("  " + FileName);
+            Console.WriteLine("  " + fileName);
             Console.WriteLine("      Extension: mkv");
-            Console.WriteLine("      Size: " + Size.Trim(new char[] { ' ', ')' }));
-            Console.WriteLine("      Resolution: " + Resolution);
+            Console.WriteLine("      Size: " + size.Trim(new char[] { ' ', ')' }));
+            Console.WriteLine("      Resolution: " + resolution);
         }
     }
 
 
     public class VideoFile : ImageFile
     {
-        public string Length;
+        public string length;
 
-        public VideoFile(string size, string fileName, string resolution, string length) : base(size, fileName, resolution)
+        public VideoFile(string[] obj) : base(obj)
         {
-            Length = length;
+            length=obj[4];
         }
 
         public void Print()
         {
             Console.WriteLine("Movies:");
-            Console.WriteLine("  " + FileName);
+            Console.WriteLine("  " + fileName);
             Console.WriteLine("      Extension: mkv");
-            Console.WriteLine("      Size: " + Size.Trim(new char[] { ' ', ')' }));
-            Console.WriteLine("      Resolution: " + Resolution);
-            Console.WriteLine("      Length: " + Length);
+            Console.WriteLine("      Size: " + size.Trim(new char[] { ' ', ')' }));
+            Console.WriteLine("      Resolution: " + resolution);
+            Console.WriteLine("      Length: " + length);
         }
     }
 
@@ -96,19 +108,19 @@ Movie:logan.2017.mkv(19GB); 1920х1080; 2h12m";
 
                 if (temp[0] == "Text")
                 {
-                    TextFile textscope = new TextFile(temp[2], temp[1], temp[3]);
+                    TextFile textscope = new TextFile(temp);
                     textscope.Print();
 
                 }
                 else if (temp[0] == "Movie")
                 {
-                    var moviescope = new VideoFile(temp[2], temp[1], temp[3], temp[4]);
+                    var moviescope = new VideoFile(temp);
                     moviescope.Print();
 
                 }
                 else
                 {
-                    var imagescope = new ImageFile(temp[2], temp[1], temp[3]);
+                    var imagescope = new ImageFile(temp);
                     imagescope.Print();
 
                 }
